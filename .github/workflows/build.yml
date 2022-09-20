@@ -43,5 +43,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"GeoChatter_GeoChatter.GeoGuessr" /o:"geochatter" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          ./sync_submodules.sh
           dotnet build ./GeoChatter.GeoGuessr/GeoChatter.GeoGuessr.sln -c Release -v detailed
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
