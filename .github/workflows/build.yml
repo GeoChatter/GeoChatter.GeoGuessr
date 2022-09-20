@@ -39,7 +39,7 @@ jobs:
       - name: Submodules
         shell: bash
         run: |
-          git submodule add https://github.com/GeoChatter/GeoChatter.GeoGuessr.git
+          git submodule add https://github.com/GeoChatter/GeoChatter.Core.git
           git submodule update --init
           git submodule update --init --recursive
           git submodule sync
