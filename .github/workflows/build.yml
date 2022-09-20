@@ -36,6 +36,16 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Submodules
+        shell: bash
+        run: |
+          git submodule add https://github.com/GeoChatter/GeoChatter.GeoGuessr.git
+          git submodule update --init
+          git submodule update --init --recursive
+          git submodule sync
+          git submodule update --remote
+          git submodule update --remote --merge
+          git submodule update --remote --merge --recursive
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -43,6 +53,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"GeoChatter_GeoChatter.GeoGuessr" /o:"geochatter" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          git submodule update --remote
           dotnet build ./GeoChatter.GeoGuessr/GeoChatter.GeoGuessr.sln -c Release -v detailed
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
